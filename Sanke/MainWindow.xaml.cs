@@ -1,8 +1,9 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace Sanke
 {
@@ -19,7 +20,7 @@ namespace Sanke
         };
         private readonly int rows = 15, cols = 15;
         private readonly Image[,] gridImages;
-        private GameState gameState;
+        private readonly GameState gameState;
 
         public MainWindow()
         {
@@ -67,7 +68,6 @@ namespace Sanke
                 await Task.Delay(100);
             }
         }
-
 
         private Image[,] SetupGrid()
         {
