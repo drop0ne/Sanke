@@ -65,14 +65,14 @@ namespace Sanke
             Grid[position.Row, position.Col] = GridValue.Food;
         }
 
-        public Position HeadPosition()
+        public Position? HeadPosition()
         {
-            return snakePositions.First.Value;
+            return snakePositions.First?.Value;
         }
 
-        public Position TailPosition()
+        public Position? TailPosition()
         {
-            return snakePositions.Last.Value;
+            return snakePositions.Last?.Value;
         }
 
         public IEnumerable<Position> SnakePositions()
@@ -85,14 +85,18 @@ namespace Sanke
             snakePositions.AddFirst(position);
             Grid[position.Row, position.Col] = GridValue.Snake;
         }
+
         private void RemoveTail()
         {
-            Position tail = snakePositions.Last.Value;
-            Grid[tail.Row, tail.Col] = GridValue.Empty;
-            snakePositions.RemoveLast();
+            if (snakePositions.Last != null)
+            {
+                Position tail = snakePositions.Last.Value;
+                Grid[tail.Row, tail.Col] = GridValue.Empty;
+                snakePositions.RemoveLast();
+            }
         }
 
-        public void changeDirection(Direction direction)
+        public void ChangeDirection(Direction direction)
         {
             if (Direction.Opposite() == direction)
             {
@@ -123,7 +127,13 @@ namespace Sanke
 
         public void Move()
         {
-            Position newHeadPos = HeadPosition().Translate(Direction);
+            Position? newHeadPos = HeadPosition()?.Translate(Direction);
+
+            if (newHeadPos == null)
+            {
+                GameOver = true;
+                return;
+            }
 
             GridValue collision = CollisionDetection(newHeadPos);
 
@@ -136,15 +146,13 @@ namespace Sanke
             {
                 RemoveTail();
                 AddHead(newHeadPos);
-            }else if (collision == GridValue.Food)
+            }
+            else if (collision == GridValue.Food)
             {
                 Score++;
                 AddHead(newHeadPos);
                 AddFood();
             }
-
         }
-
     }
-
 }
