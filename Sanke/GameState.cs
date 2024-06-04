@@ -9,8 +9,8 @@
         public int Score { get; private set; }
         public bool GameOver { get; private set; }
 
-        private readonly LinkedList<Position> snakePositions = new LinkedList<Position>();
-        private readonly Random random = new Random();
+        private readonly LinkedList<Position> snakePositions = new();
+        private readonly Random random = new();
 
         public GameState(int rows, int cols)
         {
@@ -25,7 +25,7 @@
             AddFood();
         }
 
-        public void AddSnake() 
+        public void AddSnake()
         {
             int r = Rows / 2;
             for (int c = 0; c < 3; c++)
@@ -33,8 +33,6 @@
                 Grid[r, c] = GridValue.Snake;
                 snakePositions.AddFirst(new Position(r, c));
             }
-
-        
         }
 
         private IEnumerable<Position> EmptyPosition()
@@ -53,7 +51,7 @@
 
         private void AddFood()
         {
-            List<Position> emptyPositions = new List<Position>(EmptyPosition());
+            List<Position> emptyPositions = new(EmptyPosition());
 
             if (emptyPositions.Count == 0)
             {
@@ -64,6 +62,5 @@
             Position position = emptyPositions[random.Next(emptyPositions.Count)];
             Grid[position.Row, position.Col] = GridValue.Food;
         }
-
     }
 }
