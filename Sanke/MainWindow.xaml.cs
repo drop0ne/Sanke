@@ -35,6 +35,7 @@ namespace Sanke
             await GameLoop();
             await ShowGameOver();
             //create fresh game state
+            gameState.Reset();
         }
 
         private async void Window_PreviewKeyDown(object sender, KeyEventArgs e)

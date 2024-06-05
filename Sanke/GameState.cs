@@ -176,5 +176,19 @@ namespace Sanke
                 AddFood();
             }
         }
+
+        internal void Reset()
+        {
+            Array.Clear(Grid, 0, Grid.Length);
+            directionBuffer.Clear();
+            snakePositions.Clear();
+
+            Direction = Direction.Right;
+            Score = 0;
+            GameOver = false;
+
+            AddSnake();
+            AddFood();
+        }
     }
 }
