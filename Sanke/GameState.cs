@@ -11,7 +11,7 @@ namespace Sanke
         public int Score { get; private set; }
         public bool GameOver { get; private set; }
 
-        private readonly LinkedList<Direction> directionBuffer = new LinkedList<Direction>();
+        private readonly LinkedList<Direction> directionBuffer = new();
         private readonly LinkedList<Position> snakePositions = new();
         private readonly Random random = new();
 
