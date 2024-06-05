@@ -33,6 +33,8 @@ namespace Sanke
             await ShowCountDown();
             Overlay.Visibility = Visibility.Hidden;
             await GameLoop();
+            await ShowGameOver();
+            //create fresh game state
         }
 
         private async void Window_PreviewKeyDown(object sender, KeyEventArgs e)
