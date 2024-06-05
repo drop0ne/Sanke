@@ -7,9 +7,6 @@ using System.Windows.Media;
 
 namespace Sanke
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         private readonly Dictionary<GridValue, ImageSource> gridValToImage = new()
@@ -65,6 +62,7 @@ namespace Sanke
             {
                 gameState.Move();
                 UpdateGrid();
+                ScoreText.Text = $"Score: {gameState.Score}";
                 await Task.Delay(100);
             }
         }
@@ -72,9 +70,6 @@ namespace Sanke
         private Image[,] SetupGrid()
         {
             Image[,] images = new Image[rows, cols];
-            GameGrid.Rows = rows;
-            GameGrid.Columns = cols;
-
             for (int r = 0; r < rows; r++)
             {
                 for (int c = 0; c < cols; c++)
