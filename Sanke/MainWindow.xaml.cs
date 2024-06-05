@@ -113,6 +113,10 @@ namespace Sanke
         private Image[,] SetupGrid()
         {
             Image[,] images = new Image[rows, cols];
+            GameGrid.Rows = rows;
+            GameGrid.Columns = cols;
+            GameGrid.Width = GameGrid.Height * (cols / (double)rows);
+
             for (int r = 0; r < rows; r++)
             {
                 for (int c = 0; c < cols; c++)
