@@ -175,6 +175,20 @@ namespace Sanke
             }
         }
 
+        private async Task DrawDeadSnake()
+        {
+            List<Position> snakePositions = new();
+
+
+            for (int i = 0; i < snakePositions.Count; i++)
+            {
+                Position position = snakePositions[i];
+                ImageSource source = (i == 0) ? Images.DeadHead : Images.DeadBody;
+                gridImages[position.Row, position.Col].Source = source;
+                await Task.Delay(50); // Delay for 50 milliseconds
+            }
+        }
+
         // Show a countdown before the game starts
         private async Task ShowCountDown()
         {
@@ -188,6 +202,7 @@ namespace Sanke
         // Show the game over screen
         private async Task ShowGameOver()
         {
+            await DrawDeadSnake();
             await Task.Delay(1000); // Wait for 1 second
             Overlay.Visibility = Visibility.Visible;
             OverlayText.Text = "Game Over";
