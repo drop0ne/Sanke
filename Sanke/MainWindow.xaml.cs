@@ -129,5 +129,14 @@ namespace Sanke
                 await Task.Delay(1000);
             }
         }
+
+        private async Task ShowGameOver()
+        {
+            await Task.Delay(1000);
+            Overlay.Visibility = Visibility.Visible;
+            OverlayText.Text = "Game Over";
+            await Task.Delay(1000);
+            OverlayText.Text = "PRESS ANY KEY TO START";
+        }
     }
 }
