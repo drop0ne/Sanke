@@ -3,12 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Sanke"
              StartupUri="MainWindow.xaml">
+
+    <!-- Define application-wide resources -->
     <Application.Resources>
+        <!-- Background color for the main window -->
         <SolidColorBrush x:Key="BackgroundColor" Color="#211E2B" />
+
+        <!-- Background color for the game grid -->
         <SolidColorBrush x:Key="GridBackgroundColor" Color="#312C40" />
+
+        <!-- Color for the grid lines -->
         <SolidColorBrush x:Key="GridLineColor" Color="#4F4867" />
+
+        <!-- Color for the text elements -->
         <SolidColorBrush x:Key="TextColor" Color="#EBEBEB" />
-        <SolidColorBrush x:Key="OverlayColor" Color="#312C40" />
+
+        <!-- Background color for the overlay with some transparency -->
+        <SolidColorBrush x:Key="OverlayColor" Color="#80312C40" />
+
+        <!-- Main font used in the application, referencing a font in the Assets folder -->
         <FontFamily x:Key="MainFont">Assets/#Droid Sans Mono</FontFamily>
     </Application.Resources>
 </Application>
