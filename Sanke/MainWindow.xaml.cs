@@ -30,6 +30,7 @@ namespace Sanke
         private async Task RunGame()
         {
             DrawGrid();
+            await ShowCountDown();
             Overlay.Visibility = Visibility.Hidden;
             await GameLoop();
         }
@@ -117,6 +118,15 @@ namespace Sanke
                     GridValue gridVal = gameState.Grid[r, c];
                     gridImages[r, c].Source = gridValToImage[gridVal];
                 }
+            }
+        }
+
+        private async Task ShowCountDown()
+        {
+            for (int i = 3; i > 0; i--)
+            {
+                OverlayText.Text = i.ToString();
+                await Task.Delay(1000);
             }
         }
     }
