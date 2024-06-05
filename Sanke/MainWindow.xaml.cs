@@ -15,6 +15,15 @@ namespace Sanke
             { GridValue.Snake, Images.Body },
             { GridValue.Food, Images.Food }
         };
+
+        private readonly Dictionary<Direction, int> dirToRatation = new()
+        {
+            { Direction.Up, 0 },
+            { Direction.Right, 90 },
+            { Direction.Down, 180 },
+            { Direction.Left, 270 }
+        };
+
         private readonly int rows = 15, cols = 15;
         private readonly Image[,] gridImages;
         private readonly GameState gameState;
@@ -97,7 +106,8 @@ namespace Sanke
                 {
                     Image img = new()
                     {
-                        Source = Images.Empty // Assuming Images.Empty is defined elsewhere
+                        Source = Images.Empty,
+                        RenderTransformOrigin = new Point(0.5, 0.5),
                     };
 
                     images[r, c] = img;
@@ -110,6 +120,8 @@ namespace Sanke
         private void DrawGrid()
         {
             UpdateGrid();
+            DrawSnakeHead();
+            ScoreText.Text = $"Score: {gameState.Score}";
         }
 
         private void UpdateGrid()
@@ -122,6 +134,16 @@ namespace Sanke
                     gridImages[r, c].Source = gridValToImage[gridVal];
                 }
             }
+        }
+
+        private void DrawSnakeHead()
+        {
+            Position HeadPosistion = gameState.HeadPosition();
+            Image headImage = gridImages[HeadPosistion.Row, HeadPosistion.Col];
+            headImage.Source = Images.Head;
+
+            int rotation = dirToRatation[gameState.Direction];
+            headImage.RenderTransform = new RotateTransform(rotation);
         }
 
         private async Task ShowCountDown()
@@ -138,7 +160,7 @@ namespace Sanke
             await Task.Delay(1000);
             Overlay.Visibility = Visibility.Visible;
             OverlayText.Text = "Game Over";
-            await Task.Delay(1000);
+            await Task.Delay(2000);
             OverlayText.Text = "PRESS ANY KEY TO START";
         }
     }
