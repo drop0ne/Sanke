@@ -14,6 +14,8 @@
         Icon="Assets/icon.ico"
         PreviewKeyDown="Window_PreviewKeyDown"
         KeyDown="Window_KeyDown">
+
+    <!-- Scale content to fit the window size -->
     <Viewbox>
         <Grid>
             <Grid.RowDefinitions>
@@ -48,7 +50,7 @@
                 </UniformGrid>
             </Border>
 
-            <!-- Overlay -->
+            <!-- Overlay for displaying messages -->
             <Border x:Name="Overlay"
                     Grid.Row="1"
                     Background="{StaticResource OverlayColor}"

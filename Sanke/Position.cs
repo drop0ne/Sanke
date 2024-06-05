@@ -8,18 +8,24 @@ namespace Sanke
 {
     public class Position
     {
+        // Properties for row and column positions
         public int Row { get; }
         public int Col { get; }
 
-        public Position(int row, int col) {
+        // Constructor to initialize position
+        public Position(int row, int col)
+        {
             Row = row;
             Col = col;
         }
 
-        public Position Translate(Direction direction) {
+        // Translate the position based on the direction
+        public Position Translate(Direction direction)
+        {
             return new Position(Row + direction.RowOffset, Col + direction.ColOffset);
         }
 
+        // Override Equals method for comparing positions
         public override bool Equals(object? obj)
         {
             return obj is Position position &&
@@ -27,16 +33,19 @@ namespace Sanke
                    Col == position.Col;
         }
 
+        // Override GetHashCode for using Position in collections
         public override int GetHashCode()
         {
             return HashCode.Combine(Row, Col);
         }
 
+        // Equality operator to compare two positions
         public static bool operator ==(Position? left, Position? right)
         {
             return EqualityComparer<Position>.Default.Equals(left, right);
         }
 
+        // Inequality operator to compare two positions
         public static bool operator !=(Position? left, Position? right)
         {
             return !(left == right);
