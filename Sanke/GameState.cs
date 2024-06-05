@@ -1,10 +1,13 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Sanke
 {
     public class GameState
     {
-        // Properties for the game state
+        // Public properties representing the game state
         public int Rows { get; }
         public int Cols { get; }
         public GridValue[,] Grid { get; }
@@ -12,26 +15,26 @@ namespace Sanke
         public int Score { get; private set; }
         public bool GameOver { get; private set; }
 
-        // Buffers to store directions and snake positions
+        // Private fields for internal state management
         private readonly LinkedList<Direction> directionBuffer = new();
         private readonly LinkedList<Position> snakePositions = new();
         private readonly Random random = new();
 
-        // Constructor
+        // Constructor initializing the game state
         public GameState(int rows, int cols)
         {
             Rows = rows;
             Cols = cols;
             Grid = new GridValue[rows, cols];
-            Direction = Direction.Right;
+            Direction = Direction.Right; // Initial direction is right
             Score = 0;
             GameOver = false;
 
-            AddSnake(); // Initialize the snake on the grid
-            AddFood(); // Add food on the grid
+            AddSnake(); // Add the initial snake to the grid
+            AddFood();  // Add the initial food to the grid
         }
 
-        // Add the initial snake to the grid
+        // Adds the initial snake to the center of the grid
         public void AddSnake()
         {
             int r = Rows / 2;
@@ -42,7 +45,7 @@ namespace Sanke
             }
         }
 
-        // Get all empty positions on the grid
+        // Returns an enumerable of all empty positions on the grid
         private IEnumerable<Position> EmptyPosition()
         {
             for (int r = 0; r < Rows; r++)
@@ -57,14 +60,14 @@ namespace Sanke
             }
         }
 
-        // Add food to a random empty position on the grid
+        // Adds food to a random empty position on the grid
         private void AddFood()
         {
             List<Position> emptyPositions = new(EmptyPosition());
 
             if (emptyPositions.Count == 0)
             {
-                GameOver = true;
+                GameOver = true; // Game over if no empty positions are left
                 return;
             }
 
@@ -72,32 +75,32 @@ namespace Sanke
             Grid[position.Row, position.Col] = GridValue.Food;
         }
 
-        // Get the current head position of the snake
+        // Returns the position of the snake's head
         public Position? HeadPosition()
         {
             return snakePositions.First?.Value;
         }
 
-        // Get the current tail position of the snake
+        // Returns the position of the snake's tail
         public Position? TailPosition()
         {
             return snakePositions.Last?.Value;
         }
 
-        // Get all positions occupied by the snake
+        // Returns all positions occupied by the snake
         public IEnumerable<Position> SnakePositions()
         {
             return snakePositions;
         }
 
-        // Add a new head to the snake
+        // Adds a new head position for the snake
         private void AddHead(Position position)
         {
             snakePositions.AddFirst(position);
             Grid[position.Row, position.Col] = GridValue.Snake;
         }
 
-        // Remove the tail of the snake
+        // Removes the tail position of the snake
         private void RemoveTail()
         {
             if (snakePositions.Last != null)
@@ -108,13 +111,13 @@ namespace Sanke
             }
         }
 
-        // Get the last direction from the buffer
+        // Gets the last direction from the direction buffer
         private Direction GetLastDirection()
         {
             return directionBuffer.Count > 0 ? directionBuffer.Last.Value : Direction;
         }
 
-        // Check if the direction can be changed
+        // Determines if the snake can change to the new direction
         private bool CanChangeDirection(Direction newDirection)
         {
             if (directionBuffer.Count == 2)
@@ -126,7 +129,7 @@ namespace Sanke
             return newDirection != lastDirection && newDirection != lastDirection.Opposite();
         }
 
-        // Change the direction of the snake
+        // Changes the direction of the snake if possible
         public void ChangeDirection(Direction direction)
         {
             if (CanChangeDirection(direction))
@@ -135,13 +138,13 @@ namespace Sanke
             }
         }
 
-        // Check if the position is out of the grid bounds
+        // Checks if a position is out of the grid bounds
         private bool OutOfBounds(Position position)
         {
             return position.Row < 0 || position.Row >= Rows || position.Col < 0 || position.Col >= Cols;
         }
 
-        // Detect collision at the new head position
+        // Detects collision at the new head position
         private GridValue CollisionDetection(Position newHeadPos)
         {
             if (OutOfBounds(newHeadPos))
@@ -149,7 +152,7 @@ namespace Sanke
                 return GridValue.outOfBounds;
             }
 
-            if (newHeadPos == TailPosition())
+            if (newHeadPos.Equals(TailPosition()))
             {
                 return GridValue.Empty;
             }
@@ -157,7 +160,7 @@ namespace Sanke
             return Grid[newHeadPos.Row, newHeadPos.Col];
         }
 
-        // Move the snake
+        // Moves the snake in the current direction
         public void Move()
         {
             if (directionBuffer.Count > 0)
@@ -194,7 +197,7 @@ namespace Sanke
             }
         }
 
-        // Reset the game state
+        // Resets the game state
         internal void Reset()
         {
             Array.Clear(Grid, 0, Grid.Length);
@@ -205,8 +208,8 @@ namespace Sanke
             Score = 0;
             GameOver = false;
 
-            AddSnake(); // Reinitialize the snake
-            AddFood(); // Reinitialize the food
+            AddSnake();
+            AddFood();
         }
     }
 }
