@@ -11,6 +11,7 @@ namespace Sanke
         public int Score { get; private set; }
         public bool GameOver { get; private set; }
 
+        private readonly LinkedList<Direction> directionBuffer = new();
         private readonly LinkedList<Position> snakePositions = new();
         private readonly Random random = new();
 
@@ -96,13 +97,28 @@ namespace Sanke
             }
         }
 
+        private Direction GetLastDirection()
+        {
+            return directionBuffer.Count > 0 ? directionBuffer.Last.Value : Direction;
+        }
+
+        private bool CanChangeDirection(Direction newDirection)
+        {
+            if (directionBuffer.Count == 2)
+            {
+                return false;
+            }
+
+            Direction lastDirection = GetLastDirection();
+            return newDirection != lastDirection && newDirection != lastDirection.Opposite();
+        }
+
         public void ChangeDirection(Direction direction)
         {
-            if (Direction.Opposite() == direction)
+            if (CanChangeDirection(direction))
             {
-                return;
+                directionBuffer.AddLast(direction);
             }
-            Direction = direction;
         }
 
         private bool OutOfBounds(Position position)
@@ -127,6 +143,12 @@ namespace Sanke
 
         public void Move()
         {
+            if (directionBuffer.Count > 0)
+            {
+                Direction = directionBuffer.First.Value;
+                directionBuffer.RemoveFirst();
+            }
+
             Position? newHeadPos = HeadPosition()?.Translate(Direction);
 
             if (newHeadPos == null)
