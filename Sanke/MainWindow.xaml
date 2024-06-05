@@ -33,7 +33,7 @@
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
                 RenderOptions.EdgeMode="Aliased">
-                
+
             <UniformGrid x:Name="GameGrid"
                          Width="400"
                          Height="400"

@@ -65,6 +65,7 @@ namespace Sanke
             {
                 gameState.Move();
                 UpdateGrid();
+                ScoreText.Text = $"Score: {gameState.Score}";
                 await Task.Delay(100);
             }
         }
