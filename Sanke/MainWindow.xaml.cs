@@ -156,10 +156,10 @@ namespace Sanke
         private void DrawSnakeHead()
         {
             // Retrieve the current head position from the game state
-            Position headPosition = gameState.HeadPosition();
+            Position? headPosition = gameState.HeadPosition();
 
             // Ensure the head position is within the grid bounds
-            if (headPosition.Row >= 0 && headPosition.Row < rows && headPosition.Col >= 0 && headPosition.Col < cols)
+            if (headPosition != null && headPosition.Row >= 0 && headPosition.Row < rows && headPosition.Col >= 0 && headPosition.Col < cols)
             {
                 // Get the image element at the head position in the grid
                 Image headImage = gridImages[headPosition.Row, headPosition.Col];
